@@ -22,5 +22,21 @@ jobs:
         with:
           username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and Push Images
-        run: make push.docker.all -e HUB=${{ env.DOCKERHUB_USERNAME }} -e TAG=${{ env.TAG }}
+      - name: Build Images
+        run: make docker.all -e HUB=${{ env.DOCKERHUB_USERNAME }} -e TAG=${{ env.TAG }}
+      - name: Push Operator
+        run: docker push ${{ env.DOCKERHUB_USERNAME }}/operator:${{ env.TAG }}
+      - name: Push Ext Authz
+        run: docker push ${{ env.DOCKERHUB_USERNAME }}/ext-authz:${{ env.TAG }}
+      - name: Push Istioctl
+        run: docker push ${{ env.DOCKERHUB_USERNAME }}/istioctl:${{ env.TAG }}
+      - name: Push App
+        run: docker push ${{ env.DOCKERHUB_USERNAME }}/app:${{ env.TAG }}
+      - name: Push Ztunnel
+        run: docker push ${{ env.DOCKERHUB_USERNAME }}/ztunnel:${{ env.TAG }}
+      - name: Push Install CNI
+        run: docker push ${{ env.DOCKERHUB_USERNAME }}/install-cni:${{ env.TAG }}
+      - name: Push Proxy V2
+        run: docker push ${{ env.DOCKERHUB_USERNAME }}/proxyv2:${{ env.TAG }}
+      - name: Push Pilot
+        run: docker push ${{ env.DOCKERHUB_USERNAME }}/pilot:${{ env.TAG }}
