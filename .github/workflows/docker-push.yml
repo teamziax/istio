@@ -5,9 +5,6 @@ on:
     tags:
       - '*'
 
-env:
-  DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
-
 jobs:
   docker_push:
     runs-on: ubuntu-22.04
@@ -17,26 +14,27 @@ jobs:
         uses: actions/checkout@v4
       - name: Get Tag
         run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-      - name: Login to Docker Hub as ${{ env.DOCKERHUB_USERNAME }}
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
-          username: ${{ env.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Images
-        run: make docker.all -e HUB=${{ env.DOCKERHUB_USERNAME }} -e TAG=${{ env.TAG }}
+        run: make docker.all -e HUB=${{ github.repository }} -e TAG=${{ env.TAG }}
       - name: Push Operator
-        run: docker push ${{ env.DOCKERHUB_USERNAME }}/operator:${{ env.TAG }}
+        run: docker push ghcr.io/${{ github.repository }}/operator:${{ env.TAG }}
       - name: Push Ext Authz
-        run: docker push ${{ env.DOCKERHUB_USERNAME }}/ext-authz:${{ env.TAG }}
+        run: docker push ghcr.io/${{ github.repository }}/ext-authz:${{ env.TAG }}
       - name: Push Istioctl
-        run: docker push ${{ env.DOCKERHUB_USERNAME }}/istioctl:${{ env.TAG }}
+        run: docker push ghcr.io/${{ github.repository }}/istioctl:${{ env.TAG }}
       - name: Push App
-        run: docker push ${{ env.DOCKERHUB_USERNAME }}/app:${{ env.TAG }}
+        run: docker push ghcr.io/${{ github.repository }}/app:${{ env.TAG }}
       - name: Push Ztunnel
-        run: docker push ${{ env.DOCKERHUB_USERNAME }}/ztunnel:${{ env.TAG }}
+        run: docker push ghcr.io/${{ github.repository }}/ztunnel:${{ env.TAG }}
       - name: Push Install CNI
-        run: docker push ${{ env.DOCKERHUB_USERNAME }}/install-cni:${{ env.TAG }}
+        run: docker push ghcr.io/${{ github.repository }}/install-cni:${{ env.TAG }}
       - name: Push Proxy V2
-        run: docker push ${{ env.DOCKERHUB_USERNAME }}/proxyv2:${{ env.TAG }}
+        run: docker push ghcr.io/${{ github.repository }}/proxyv2:${{ env.TAG }}
       - name: Push Pilot
-        run: docker push ${{ env.DOCKERHUB_USERNAME }}/pilot:${{ env.TAG }}
+        run: docker push ghcr.io/${{ github.repository }}/pilot:${{ env.TAG }}
