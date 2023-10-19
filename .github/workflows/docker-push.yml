@@ -21,7 +21,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Images
-        run: make docker.all -e HUB=${{ github.repository }} -e TAG=${{ env.TAG }}
+        run: make docker.all -e HUB=ghcr.io/${{ github.repository }} -e TAG=${{ env.TAG }}
       - name: Push Operator
         run: docker push ghcr.io/${{ github.repository }}/operator:${{ env.TAG }}
       - name: Push Ext Authz
