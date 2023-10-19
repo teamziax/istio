@@ -23,18 +23,18 @@ jobs:
       - name: Build Images
         run: make docker.all -e HUB=${{ github.repository }} -e TAG=${{ env.TAG }}
       - name: Push Operator
-        run: docker push ghcr.io/${{ github.repository }}/operator:${{ env.TAG }}
+        run: docker push ${{ github.repository }}/operator:${{ env.TAG }}
       - name: Push Ext Authz
-        run: docker push ghcr.io/${{ github.repository }}/ext-authz:${{ env.TAG }}
+        run: docker push ${{ github.repository }}/ext-authz:${{ env.TAG }}
       - name: Push Istioctl
-        run: docker push ghcr.io/${{ github.repository }}/istioctl:${{ env.TAG }}
+        run: docker push ${{ github.repository }}/istioctl:${{ env.TAG }}
       - name: Push App
-        run: docker push ghcr.io/${{ github.repository }}/app:${{ env.TAG }}
+        run: docker push ${{ github.repository }}/app:${{ env.TAG }}
       - name: Push Ztunnel
-        run: docker push ghcr.io/${{ github.repository }}/ztunnel:${{ env.TAG }}
+        run: docker push ${{ github.repository }}/ztunnel:${{ env.TAG }}
       - name: Push Install CNI
-        run: docker push ghcr.io/${{ github.repository }}/install-cni:${{ env.TAG }}
+        run: docker push ${{ github.repository }}/install-cni:${{ env.TAG }}
       - name: Push Proxy V2
-        run: docker push ghcr.io/${{ github.repository }}/proxyv2:${{ env.TAG }}
+        run: docker push ${{ github.repository }}/proxyv2:${{ env.TAG }}
       - name: Push Pilot
-        run: docker push ghcr.io/${{ github.repository }}/pilot:${{ env.TAG }}
+        run: docker push ${{ github.repository }}/pilot:${{ env.TAG }}
